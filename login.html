@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .google-btn {
+            padding: 10px;
+            background-color: #db4437;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .google-btn:hover {
+            background-color: #c13524;
+        }
+    </style>
+    <!-- Google Sign-In API -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login / Sign Up</h2>
+        <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
+        <p>or</p>
+        <form id="manualLogin">
+            <input type="text" placeholder="Username" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#">Sign up</a></p>
+    </div>
+
+    <script>
+        function onSignIn(googleUser) {
+            const profile = googleUser.getBasicProfile();
+            alert("Logged in as: " + profile.getName());
+            // You can also send profile info to your server here if needed
+        }
+
+        function onFailure(error) {
+            alert('Error signing in: ' + error);
+        }
+
+        document.getElementById("manualLogin").onsubmit = function(event) {
+            event.preventDefault(); // Prevent form submission
+            alert("Manual login submitted!"); // Add your manual login logic here
+        };
+    </script>
+    <script>
+        // Load the Google API client
+        function renderButton() {
+            gapi.signin2.render('googleSignIn', {
+                'scope': 'profile email',
+                'width': 240,
+                'height': 50,
+                'longtitle': true,
+                'theme': 'dark',
+                'onsuccess': onSignIn,
+                'onfailure': onFailure
+            });
+        }
+    </script>
+</body>
+</html>
